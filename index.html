@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carta para Alex</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            color: #333;
+            text-align: center;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            position: relative;
+        }
+        .background-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            animation: gradientBG 10s infinite alternate;
+        }
+        @keyframes gradientBG {
+            0% { background: linear-gradient(135deg, #ff9a9e, #fad0c4); }
+            50% { background: linear-gradient(135deg, #a1c4fd, #c2e9fb); }
+            100% { background: linear-gradient(135deg, #ffecd2, #fcb69f); }
+        }
+        .container {
+            padding: 20px;
+            text-align: center;
+        }
+        .countdown {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        .letter {
+            display: none;
+            background: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            margin: 20px;
+            max-width: 600px;
+            background: rgba(255, 255, 255, 0.8);
+        }
+        .fireworks {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 999;
+        }
+        .confetti {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background-color: #ff6347;
+            border-radius: 50%;
+            animation: confettiAnimation 1.5s linear infinite;
+        }
+        @keyframes confettiAnimation {
+            0% { transform: translateY(0) rotate(0); opacity: 1; }
+            100% { transform: translateY(600px) rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-animation"></div>
+    <div class="container">
+        <h1>¡Feliz fin de año, Alex!</h1>
+        <div class="countdown" id="countdown">00:00:00</div>
+        <div class="letter" id="letter">
+            <h2>Carta para Alex</h2>
+            <p>¡Hola Lexi!</p>
+            <p>Primero que todo, ¡feliz fin de año! Espero que este 2025 llegue lleno de bendiciones, risas y mucha felicidad para vos. No sé cómo resumir todo lo que pienso de nuestra amistad en una carta, pero igual aquí voy porque merecés saber lo especial que sos para mí.</p>
+            <p>Este año fue una locura en muchos sentidos, pero siempre me acompañaste y, aunque a veces te sintás bajoneada, quiero recordarte que sos una persona increíble, valiosa y fuerte. Vos siempre brillás, aunque no te des cuenta, y estoy muy agradecido de tenerte como mi amiga.</p>
+            <p>Ah, y hablando de agradecimientos… tengo tres regalitos para vos. Como sabés, no soy millonario, pero sí creativo, así que hay algo hecho a mano (unos papercrafts) y otras cositas más que creo que te van a gustar. Te voy a dejar que adivinés el personaje de los papercrafts… Pista: es alguien que sabemos que te encanta.</p>
+            <p>Gracias por todo, Lexi, por ser como sos, por los chistes que me hacen reír hasta doler la panza, por escucharme y también por dejarme escucharte. Deseo que este nuevo año esté lleno de éxitos, que cumplás todas tus metas y que siempre encontrés razones para sonreír.</p>
+            <p>Con cariño,<br>Ramces</p>
+        </div>
+    </div>
+
+    <div class="fireworks" id="fireworks"></div>
+
+    <script>
+        const countdownElement = document.getElementById('countdown');
+        const letterElement = document.getElementById('letter');
+        const fireworksElement = document.getElementById('fireworks');
+
+        function createConfetti() {
+            const confettiCount = 100; // Número de confetis
+
+            for (let i = 0; i < confettiCount; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                confetti.style.left = `${Math.random() * 100}vw`; // Posición horizontal aleatoria
+                confetti.style.animationDuration = `${Math.random() * 1 + 1}s`; // Duración de caída aleatoria
+                confetti.style.animationDelay = `${Math.random() * 0.5}s`; // Retraso aleatorio
+                fireworksElement.appendChild(confetti);
+            }
+        }
+
+        function updateCountdown() {
+            const now = new Date();
+            const targetTime = new Date(now.getFullYear(), 11, 31, 23, 59, 59); // Establece la medianoche de Año Nuevo
+
+            const timeLeft = targetTime - now;
+
+            if (timeLeft <= 0) {
+                countdownElement.style.display = 'none';
+                letterElement.style.display = 'block';
+                createConfetti(); // Crear confeti al llegar a la medianoche
+                return;
+            }
+
+            const hours = String(Math.floor((timeLeft / (1000 * 60 * 60)) % 24)).padStart(2, '0');
+            const minutes = String(Math.floor((timeLeft / (1000 * 60)) % 60)).padStart(2, '0');
+            const seconds = String(Math.floor((timeLeft / 1000) % 60)).padStart(2, '0');
+
+            countdownElement.textContent = `${hours}:${minutes}:${seconds}`;
+            setTimeout(updateCountdown, 1000); // Actualización cada segundo
+        }
+
+        updateCountdown(); // Comienza el temporizador
+    </script>
+</body>
+</html>
